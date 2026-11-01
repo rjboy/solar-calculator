@@ -94,11 +94,11 @@
                     <!-- Input 1: Electrical Bill -->
                     <div>
                         <label for="electricBill" class="block text-sm font-semibold text-gray-300 uppercase tracking-wider mb-2">
-                            Monthly Electrical Bill (<span class="text-[#FF6600]">?</span>)
+                            Monthly Electrical Bill (<span class="text-[#FF6600]">₱</span>)
                         </label>
                         <div class="relative rounded-lg shadow-sm">
                             <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#FF6600] font-bold">
-                                ?
+                                ₱
                             </div>
                             <input 
                                 type="number" 
@@ -107,8 +107,6 @@
                                 placeholder="e.g. 15000"
                                 min="0"
                                 step="any"
-                                value="15000"
-                                required
                             >
                         </div>
                         <p class="text-xs text-gray-400 mt-1">Enter your average total monthly electricity expense.</p>
@@ -117,11 +115,11 @@
                     <!-- Input 2: Electricity Rate -->
                     <div>
                         <label for="electricityPrice" class="block text-sm font-semibold text-gray-300 uppercase tracking-wider mb-2">
-                            Electricity Price (<span class="text-[#FF6600]">? / kWh</span>)
+                            Electricity Price (<span class="text-[#FF6600]">₱ / kWh</span>)
                         </label>
                         <div class="relative rounded-lg shadow-sm">
                             <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#FF6600] font-bold">
-                                ?
+                                ₱
                             </div>
                             <input 
                                 type="number" 
@@ -130,8 +128,6 @@
                                 placeholder="e.g. 12.5"
                                 min="0.01"
                                 step="any"
-                                value="12"
-                                required
                             >
                         </div>
                         <p class="text-xs text-gray-400 mt-1">Rate per kilowatt-hour from your utility bill.</p>
@@ -141,20 +137,29 @@
                     <div>
                         <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Quick Rate Presets:</label>
                         <div class="grid grid-cols-3 gap-2">
-                            <button type="button" onclick="setPrice(10)" class="bg-[#1e1e1e] hover:bg-[#FF6600] hover:text-black border border-[#FF6600]/30 text-xs font-bold py-2 rounded transition">?10/kWh</button>
-                            <button type="button" onclick="setPrice(12)" class="bg-[#1e1e1e] hover:bg-[#FF6600] hover:text-black border border-[#FF6600]/30 text-xs font-bold py-2 rounded transition">?12/kWh</button>
-                            <button type="button" onclick="setPrice(15)" class="bg-[#1e1e1e] hover:bg-[#FF6600] hover:text-black border border-[#FF6600]/30 text-xs font-bold py-2 rounded transition">?15/kWh</button>
+                            <button type="button" onclick="setPrice(10)" class="bg-[#1e1e1e] hover:bg-[#FF6600] hover:text-black border border-[#FF6600]/30 text-xs font-bold py-2 rounded transition">₱10/kWh</button>
+                            <button type="button" onclick="setPrice(12)" class="bg-[#1e1e1e] hover:bg-[#FF6600] hover:text-black border border-[#FF6600]/30 text-xs font-bold py-2 rounded transition">₱12/kWh</button>
+                            <button type="button" onclick="setPrice(15)" class="bg-[#1e1e1e] hover:bg-[#FF6600] hover:text-black border border-[#FF6600]/30 text-xs font-bold py-2 rounded transition">₱15/kWh</button>
                         </div>
                     </div>
 
-                    <!-- Calculate Button -->
-                    <button 
-                        type="button" 
-                        onclick="calculateSolar()" 
-                        class="w-full bg-[#FF6600] hover:bg-[#FF8C00] text-black font-extrabold uppercase py-3.5 rounded-lg text-lg transition duration-200 shadow-md hover:shadow-lg flex items-center justify-center gap-2"
-                    >
-                        <i class="fa-solid fa-[#FF6600] fa-microchip text-black"></i> Calculate Solar Sizing
-                    </button>
+                    <!-- Action Buttons (Calculate & Reset) -->
+                    <div class="flex gap-3">
+                        <button 
+                            type="button" 
+                            onclick="calculateSolar()" 
+                            class="flex-grow bg-[#FF6600] hover:bg-[#FF8C00] text-black font-extrabold uppercase py-3.5 rounded-lg text-base transition duration-200 shadow-md hover:shadow-lg flex items-center justify-center gap-2"
+                        >
+                            <i class="fa-solid fa-microchip text-black"></i> Calculate
+                        </button>
+                        <button 
+                            type="button" 
+                            onclick="resetCalculator()" 
+                            class="bg-[#1e1e1e] hover:bg-gray-800 text-gray-300 hover:text-white border border-gray-700 font-bold uppercase px-4 py-3.5 rounded-lg text-sm transition duration-200 flex items-center justify-center gap-2"
+                        >
+                            <i class="fa-solid fa-rotate-right"></i> Reset
+                        </button>
+                    </div>
                 </form>
             </section>
 
@@ -270,21 +275,21 @@
                                 <span class="w-2.5 h-2.5 rounded-full bg-[#FF6600]"></span> 6 Kilowatts (6kW)
                             </td>
                             <td class="p-4 text-gray-300">Hybrid System</td>
-                            <td class="p-4 font-extrabold text-[#FF8C00]">?265,000 - ?320,000</td>
+                            <td class="p-4 font-extrabold text-[#FF8C00]">₱265,000 - ₱320,000</td>
                         </tr>
                         <tr class="hover:bg-[#181818] transition">
                             <td class="p-4 font-bold text-white flex items-center gap-2">
                                 <span class="w-2.5 h-2.5 rounded-full bg-[#FF6600]"></span> 8 Kilowatts (8kW)
                             </td>
                             <td class="p-4 text-gray-300">Hybrid System</td>
-                            <td class="p-4 font-extrabold text-[#FF8C00]">?295,000 - ?350,000</td>
+                            <td class="p-4 font-extrabold text-[#FF8C00]">₱295,000 - ₱350,000</td>
                         </tr>
                         <tr class="hover:bg-[#181818] transition">
                             <td class="p-4 font-bold text-white flex items-center gap-2">
                                 <span class="w-2.5 h-2.5 rounded-full bg-[#FF6600]"></span> 10 Kilowatts (10kW)
                             </td>
                             <td class="p-4 text-gray-300">Hybrid System</td>
-                            <td class="p-4 font-extrabold text-[#FF8C00]">?340,000 - ?395,000</td>
+                            <td class="p-4 font-extrabold text-[#FF8C00]">₱340,000 - ₱395,000</td>
                         </tr>
                     </tbody>
                 </table>
@@ -347,6 +352,21 @@
             calculateSolar();
         }
 
+        // Reset Calculator Function
+        function resetCalculator() {
+            document.getElementById('electricBill').value = '';
+            document.getElementById('electricityPrice').value = '';
+            
+            // Reset displays back to default zeros
+            document.getElementById('monthlyKwhDisplay').textContent = "0";
+            document.getElementById('dailyKwhDisplay').textContent = "0";
+            document.getElementById('inverterDisplay').textContent = "0";
+            document.getElementById('batteryDisplay').textContent = "0";
+            document.getElementById('panelDisplay').textContent = "0";
+            document.getElementById('ratioTag').textContent = "Ratio: 0";
+            document.getElementById('inverterExplanation').textContent = "Calculation: Monthly Consumption ÷ 90 compared against DIY classification ranges.";
+        }
+
         // Main calculation logic adhering strictly to provided rules
         function calculateSolar() {
             const billInput = parseFloat(document.getElementById('electricBill').value);
@@ -374,12 +394,6 @@
             const inverterRatio = monthlyConsumption / 90;
 
             // Inverter sizing logic based on ratio rules:
-            // - 6.1 to 7.5 -> 6 kW
-            // - 7.6 to 9.5 -> 8 kW
-            // - 9.6 to 11.0 -> 10 kW
-            // - 11.1 to 14.5 -> 12 kW
-            // - 14.6 to 17.0 -> 16 kW
-            // - 17.1 to 20.0 -> 18 kW
             let inverterNeeded = 0;
             let ruleText = "";
 
@@ -388,22 +402,22 @@
                 ruleText = `Ratio is ${inverterRatio.toFixed(2)} (Below 6.1, defaulted to minimum 6 kW Hybrid Inverter).`;
             } else if (inverterRatio >= 6.1 && inverterRatio <= 7.5) {
                 inverterNeeded = 6;
-                ruleText = `Ratio is ${inverterRatio.toFixed(2)} (Falls between 6.1 and 7.5 ? Rounded to 6 kW).`;
+                ruleText = `Ratio is ${inverterRatio.toFixed(2)} (Falls between 6.1 and 7.5 → Rounded to 6 kW).`;
             } else if (inverterRatio > 7.5 && inverterRatio <= 9.5) {
                 inverterNeeded = 8;
-                ruleText = `Ratio is ${inverterRatio.toFixed(2)} (Falls between 7.6 and 9.5 ? Rounded to 8 kW).`;
+                ruleText = `Ratio is ${inverterRatio.toFixed(2)} (Falls between 7.6 and 9.5 → Rounded to 8 kW).`;
             } else if (inverterRatio > 9.5 && inverterRatio <= 11.0) {
                 inverterNeeded = 10;
-                ruleText = `Ratio is ${inverterRatio.toFixed(2)} (Falls between 9.6 and 11.0 ? Rounded to 10 kW).`;
+                ruleText = `Ratio is ${inverterRatio.toFixed(2)} (Falls between 9.6 and 11.0 → Rounded to 10 kW).`;
             } else if (inverterRatio > 11.0 && inverterRatio <= 14.5) {
                 inverterNeeded = 12;
-                ruleText = `Ratio is ${inverterRatio.toFixed(2)} (Falls between 11.1 and 14.5 ? Rounded to 12 kW).`;
+                ruleText = `Ratio is ${inverterRatio.toFixed(2)} (Falls between 11.1 and 14.5 → Rounded to 12 kW).`;
             } else if (inverterRatio > 14.5 && inverterRatio <= 17.0) {
                 inverterNeeded = 16;
-                ruleText = `Ratio is ${inverterRatio.toFixed(2)} (Falls between 14.6 and 17.0 ? Rounded to 16 kW).`;
+                ruleText = `Ratio is ${inverterRatio.toFixed(2)} (Falls between 14.6 and 17.0 → Rounded to 16 kW).`;
             } else if (inverterRatio > 17.0 && inverterRatio <= 20.0) {
                 inverterNeeded = 18;
-                ruleText = `Ratio is ${inverterRatio.toFixed(2)} (Falls between 17.1 and 20.0 ? Rounded to 18 kW).`;
+                ruleText = `Ratio is ${inverterRatio.toFixed(2)} (Falls between 17.1 and 20.0 → Rounded to 18 kW).`;
             } else {
                 inverterNeeded = 18;
                 ruleText = `Ratio is ${inverterRatio.toFixed(2)} (Exceeds 20.0, maximum standard tier set to 18 kW).`;
@@ -422,7 +436,7 @@
             document.getElementById('ratioTag').textContent = `Ratio: ${inverterRatio.toFixed(2)}`;
             document.getElementById('inverterExplanation').textContent = ruleText;
 
-            // Display formatted numbers (rounded up or with decimals as appropriate for units)
+            // Display formatted numbers
             document.getElementById('batteryDisplay').textContent = `${batteryNeeded.toFixed(2)} (${Math.ceil(batteryNeeded)} approx)`;
             document.getElementById('panelDisplay').textContent = `${solarPanelsNeeded.toFixed(1)} (${Math.ceil(solarPanelsNeeded)} panels)`;
         }
@@ -430,11 +444,6 @@
         // Add real-time event listeners for interactive responsiveness
         document.getElementById('electricBill').addEventListener('input', calculateSolar);
         document.getElementById('electricityPrice').addEventListener('input', calculateSolar);
-
-        // Run calculation on load
-        window.onload = function() {
-            calculateSolar();
-        };
     </script>
 </body>
 </html>
