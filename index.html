@@ -46,6 +46,11 @@
         .orange-border-glow:focus {
             box-shadow: 0 0 15px 2px rgba(255, 102, 0, 0.5);
         }
+        .highlight-row {
+            background-color: rgba(255, 102, 0, 0.18) !important;
+            border-left: 4px solid #FF6600 !important;
+            box-shadow: inset 0 0 10px rgba(255, 102, 0, 0.3);
+        }
         /* Custom scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
@@ -76,7 +81,7 @@
             </h1>
             <div class="max-w-3xl mx-auto bg-[#111111] border-l-4 border-[#FF6600] p-4 md:p-6 rounded-r-xl shadow-lg">
                 <p class="text-sm md:text-base text-gray-200 leading-relaxed text-left md:text-center font-medium">
-                    This website helps you what kind of Solar Setup is right for your home just Enjoy and do not forget to Subscribe my youtube channel scroll down Thanks 
+                    This website is for people who want to know what Solar Setup is right for them. This is based on an average type of household user who consumes <span class="text-[#FF8C00] font-bold">30-40%</span> of electricity in the morning and <span class="text-[#FF8C00] font-bold">60-70%</span> at night.
                 </p>
             </div>
         </header>
@@ -278,6 +283,31 @@
 
                 </div>
 
+                <!-- ROI FEATURE & ESTIMATED PAYBACK SECTION -->
+                <div class="mt-6 bg-[#111111] border border-[#00FF66]/30 p-5 rounded-xl space-y-4">
+                    <div class="flex items-center justify-between border-b border-gray-800 pb-2">
+                        <span class="text-xs uppercase font-bold text-[#00FF66] tracking-wider flex items-center gap-2">
+                            <i class="fa-solid fa-chart-line"></i> Return on Investment (ROI) Estimate
+                        </span>
+                        <span id="roiStatusTag" class="text-xs bg-[#00FF66]/20 text-[#00FF66] font-semibold px-2 py-0.5 rounded border border-[#00FF66]/40">
+                            Estimate Active
+                        </span>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="bg-[#161616] p-4 rounded-lg border border-gray-800">
+                            <span class="text-xs text-gray-400 uppercase font-semibold">Est. System Investment</span>
+                            <div class="text-2xl font-extrabold text-white mt-1" id="systemPriceDisplay">₱0</div>
+                            <p class="text-xs text-gray-500 mt-1">Average based on matching inverter tier</p>
+                        </div>
+                        <div class="bg-[#161616] p-4 rounded-lg border border-gray-800">
+                            <span class="text-xs text-gray-400 uppercase font-semibold">Estimated Payback Period</span>
+                            <div class="text-2xl font-extrabold text-[#00FF66] mt-1" id="paybackDisplay">0 Years</div>
+                            <p class="text-xs text-gray-500 mt-1">Payback calculated against full monthly bill offset</p>
+                        </div>
+                    </div>
+                </div>
+
             </section>
         </main>
 
@@ -302,35 +332,35 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-800 text-sm md:text-base font-medium">
-                        <tr class="hover:bg-[#181818] transition">
+                        <tr id="row-3kw" class="hover:bg-[#181818] transition">
                             <td class="p-4 font-bold text-white flex items-center gap-2">
                                 <span class="w-2.5 h-2.5 rounded-full bg-[#FF6600]"></span> 3 Kilowatts (3kW)
                             </td>
                             <td class="p-4 text-gray-300">Hybrid System</td>
                             <td class="p-4 font-extrabold text-[#FF8C00]">₱150,000 - ₱195,000</td>
                         </tr>
-                        <tr class="hover:bg-[#181818] transition">
+                        <tr id="row-6kw" class="hover:bg-[#181818] transition">
                             <td class="p-4 font-bold text-white flex items-center gap-2">
                                 <span class="w-2.5 h-2.5 rounded-full bg-[#FF6600]"></span> 6 Kilowatts (6kW)
                             </td>
                             <td class="p-4 text-gray-300">Hybrid System</td>
                             <td class="p-4 font-extrabold text-[#FF8C00]">₱265,000 - ₱320,000</td>
                         </tr>
-                        <tr class="hover:bg-[#181818] transition">
+                        <tr id="row-8kw" class="hover:bg-[#181818] transition">
                             <td class="p-4 font-bold text-white flex items-center gap-2">
                                 <span class="w-2.5 h-2.5 rounded-full bg-[#FF6600]"></span> 8 Kilowatts (8kW)
                             </td>
                             <td class="p-4 text-gray-300">Hybrid System</td>
                             <td class="p-4 font-extrabold text-[#FF8C00]">₱320,000 - ₱450,000</td>
                         </tr>
-                        <tr class="hover:bg-[#181818] transition">
+                        <tr id="row-10kw" class="hover:bg-[#181818] transition">
                             <td class="p-4 font-bold text-white flex items-center gap-2">
                                 <span class="w-2.5 h-2.5 rounded-full bg-[#FF6600]"></span> 10 Kilowatts (10kW)
                             </td>
                             <td class="p-4 text-gray-300">Hybrid System</td>
                             <td class="p-4 font-extrabold text-[#FF8C00]">₱450,000 - ₱680,000</td>
                         </tr>
-                        <tr class="hover:bg-[#181818] transition">
+                        <tr id="row-12kw" class="hover:bg-[#181818] transition">
                             <td class="p-4 font-bold text-white flex items-center gap-2">
                                 <span class="w-2.5 h-2.5 rounded-full bg-[#FF6600]"></span> 12 Kilowatts (12kW)
                             </td>
@@ -398,6 +428,35 @@
             calculateSolar();
         }
 
+        // Price lookup map (Average costs for ROI calculation)
+        const priceLookupMap = {
+            3: { min: 150000, max: 195000, avg: 172500, elementId: 'row-3kw' },
+            6: { min: 265000, max: 320000, avg: 292500, elementId: 'row-6kw' },
+            8: { min: 320000, max: 450000, avg: 385000, elementId: 'row-8kw' },
+            10: { min: 450000, max: 680000, avg: 565000, elementId: 'row-10kw' },
+            12: { min: 585000, max: 850000, avg: 717500, elementId: 'row-12kw' },
+            16: { min: 700000, max: 950000, avg: 825000, elementId: null },
+            18: { min: 800000, max: 1100000, avg: 950000, elementId: null }
+        };
+
+        // Table highlight reset helper
+        function clearTableHighlights() {
+            const tableRows = document.querySelectorAll('tbody tr');
+            tableRows.forEach(row => row.classList.remove('highlight-row'));
+        }
+
+        // Highlight matching table row
+        function highlightTableRow(inverterCapacity) {
+            clearTableHighlights();
+            const targetData = priceLookupMap[inverterCapacity];
+            if (targetData && targetData.elementId) {
+                const targetRow = document.getElementById(targetData.elementId);
+                if (targetRow) {
+                    targetRow.classList.add('highlight-row');
+                }
+            }
+        }
+
         // Reset Calculator Function
         function resetCalculator() {
             document.getElementById('electricBill').value = '';
@@ -412,6 +471,12 @@
             document.getElementById('panelDisplay').innerHTML = '0 <span class="text-sm font-semibold text-gray-400">Panels</span>';
             document.getElementById('ratioTag').textContent = "Ratio: 0";
             document.getElementById('inverterExplanation').textContent = "Calculation: Monthly Consumption ÷ 90 compared against DIY classification ranges.";
+            
+            // Reset ROI displays
+            document.getElementById('systemPriceDisplay').textContent = '₱0';
+            document.getElementById('paybackDisplay').textContent = '0 Years';
+            
+            clearTableHighlights();
         }
 
         // Main calculation logic adhering strictly to provided rules
@@ -429,6 +494,9 @@
                 document.getElementById('panelDisplay').innerHTML = '0 <span class="text-sm font-semibold text-gray-400">Panels</span>';
                 document.getElementById('ratioTag').textContent = "Ratio: --";
                 document.getElementById('inverterExplanation').textContent = "Please enter valid numbers for Bill and Price.";
+                document.getElementById('systemPriceDisplay').textContent = '₱0';
+                document.getElementById('paybackDisplay').textContent = '0 Years';
+                clearTableHighlights();
                 return;
             }
 
@@ -471,39 +539,49 @@
                 ruleText = `Ratio is ${inverterRatio.toFixed(2)} (Exceeds 20.0, maximum standard tier set to 18 kW).`;
             }
 
+            // Highlight table row matching inverter capacity
+            highlightTableRow(inverterNeeded);
+
+            // Calculate ROI Metrics
+            const systemLookup = priceLookupMap[inverterNeeded];
+            if (systemLookup) {
+                const estPriceAvg = systemLookup.avg;
+                const annualSavings = billInput * 12;
+                const paybackYears = (estPriceAvg / annualSavings).toFixed(1);
+
+                document.getElementById('systemPriceDisplay').textContent = `₱${systemLookup.min.toLocaleString()} - ₱${systemLookup.max.toLocaleString()}`;
+                document.getElementById('paybackDisplay').textContent = `${paybackYears} Years`;
+            }
+
             // 4. Battery Needed calculation based on User Type Dropdown selection
             let batteryText = "";
 
             if (userType === 'night') {
-                // Night Time User Formula: daily consumption * 0.8 / 12
                 const rawNightBattery = (dailyConsumption * 0.8) / 12;
                 const intPart = Math.floor(rawNightBattery);
                 const decPart = rawNightBattery - intPart;
 
                 let finalNightUnits = intPart;
                 if (decPart > 0.3) {
-                    finalNightUnits = intPart + 1; // Round UP if decimal > 0.3
+                    finalNightUnits = intPart + 1;
                 } else {
-                    finalNightUnits = intPart;     // Round DOWN if decimal < 0.3
+                    finalNightUnits = intPart;
                 }
                 batteryText = `${finalNightUnits} <span class="text-sm font-semibold text-gray-400">Units (Night User)</span>`;
 
             } else if (userType === 'day') {
-                // Day Time User Formula: daily consumption * 0.2 / 12
                 const rawDayBattery = (dailyConsumption * 0.2) / 12;
 
                 if (rawDayBattery < 0.3) {
-                    batteryText = `1pc <span class="text-sm font-semibold text-gray-400">100AH 51.2 volts battery</span>`;
+                    batteryText = `1 pc <span class="text-sm font-semibold text-gray-400">100AH 51.2V battery</span>`;
                 } else if (rawDayBattery >= 0.3 && rawDayBattery < 0.6) {
-                    batteryText = `1 pc <span class="text-sm font-semibold text-gray-400">200AH 51.2 volt battery</span>`;
+                    batteryText = `1 pc <span class="text-sm font-semibold text-gray-400">200AH 51.2V battery</span>`;
                 } else {
-                    // Fallback for higher ranges if needed based on calculated value
                     const roundedDay = Math.ceil(rawDayBattery);
                     batteryText = `${roundedDay} <span class="text-sm font-semibold text-gray-400">Units (Day User)</span>`;
                 }
 
             } else {
-                // Default formula logic
                 const rawBatteryNeeded = (dailyConsumption / 1.6) / 12;
                 if (rawBatteryNeeded < 0.5) {
                     batteryText = `1 Unit <span class="text-sm font-semibold text-gray-400">(200AH 24V)</span>`;
@@ -515,12 +593,11 @@
 
             // 5. Solar Panels Needed calculation with <= 4 rule
             const rawSolarPanels = (monthlyConsumption * 10) / 600;
-            let panelText = "";
             let finalPanelCount = Math.ceil(rawSolarPanels);
             if (finalPanelCount <= 4) {
                 finalPanelCount = 4;
             }
-            panelText = `${finalPanelCount} <span class="text-sm font-semibold text-gray-400">Panels</span>`;
+            const panelText = `${finalPanelCount} <span class="text-sm font-semibold text-gray-400">Panels</span>`;
 
             // Update DOM Displays
             document.getElementById('monthlyKwhDisplay').textContent = monthlyConsumption.toLocaleString('en-US', { maximumFractionDigits: 1 });
@@ -533,10 +610,6 @@
             document.getElementById('batteryDisplay').innerHTML = batteryText;
             document.getElementById('panelDisplay').innerHTML = panelText;
         }
-
-        // Add real-time event listeners for interactive responsiveness
-        document.getElementById('electricBill').addEventListener('input', calculateSolar);
-        document.getElementById('electricityPrice').addEventListener('input', calculateSolar);
     </script>
 </body>
 </html>
