@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SOLAR DIYers - Solar Calculator & System Sizing</title>
+    <title>Solar Setup for my Home - Solar Calculator & System Sizing</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -68,8 +68,8 @@
         
         <!-- HEADER SECTION -->
         <header class="text-center mb-10 md:mb-14">
-            <div class="inline-flex items-center justify-center p-3 mb-4 rounded-full bg-[#161616] border border-[#FF6600]/40 orange-glow">
-                <i class="fa-solid font-bold fa-bolt text-3xl text-[#FF6600] animate-pulse"></i>
+            <div class="inline-flex items-center justify-center p-3 mb-4 rounded-full bg-[#161616] border border-[#00FF66]/40 shadow-[0_0_20px_rgba(0,255,102,0.25)]">
+                <i class="fa-solid font-bold fa-bolt text-3xl text-[#00FF66] animate-pulse"></i>
             </div>
             <h1 class="text-4xl md:text-6xl font-black tracking-tight text-[#FF6600] uppercase mb-4">
                 SOLAR DIYers
@@ -85,82 +85,97 @@
         <main class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-16">
             
             <!-- INPUTS PANEL -->
-            <section class="lg:col-span-5 bg-[#111111] border border-[#FF6600]/30 rounded-2xl p-6 md:p-8 orange-glow">
-                <h2 class="text-xl md:text-2xl font-bold text-[#FF6600] uppercase tracking-wide mb-6 flex items-center gap-2 border-b border-[#FF6600]/20 pb-3">
-                    <i class="fa-solid fa-calculator"></i> Enter System Inputs
-                </h2>
+            <section class="lg:col-span-5 bg-[#111111] border border-[#FF6600]/30 rounded-2xl p-6 md:p-8 orange-glow space-y-6">
+                <div>
+                    <h2 class="text-xl md:text-2xl font-bold text-[#00FF66] uppercase tracking-wide mb-6 flex items-center gap-2 border-b border-[#00FF66]/20 pb-3 drop-shadow-[0_0_8px_rgba(0,255,102,0.4)]">
+                        <i class="fa-solid fa-calculator text-[#00FF66]"></i> Enter System Inputs
+                    </h2>
 
-                <form id="solarForm" onsubmit="event.preventDefault();" class="space-y-6">
-                    <!-- Input 1: Electrical Bill -->
-                    <div>
-                        <label for="electricBill" class="block text-sm font-semibold text-gray-300 uppercase tracking-wider mb-2">
-                            Monthly Electrical Bill (<span class="text-[#FF6600]">₱</span>)
-                        </label>
-                        <div class="relative rounded-lg shadow-sm">
-                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#FF6600] font-bold">
-                                ₱
+                    <form id="solarForm" onsubmit="event.preventDefault();" class="space-y-6">
+                        <!-- Input 1: Electrical Bill -->
+                        <div>
+                            <label for="electricBill" class="block text-sm font-semibold text-gray-300 uppercase tracking-wider mb-2">
+                                Monthly Electrical Bill (<span class="text-[#FF6600]">₱</span>)
+                            </label>
+                            <div class="relative rounded-lg shadow-sm">
+                                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#FF6600] font-bold">
+                                    ₱
+                                </div>
+                                <input 
+                                    type="number" 
+                                    id="electricBill" 
+                                    class="w-full bg-[#1b1b1b] border border-gray-700 focus:border-[#FF6600] text-white font-bold text-lg rounded-lg pl-9 pr-4 py-3 outline-none transition orange-border-glow" 
+                                    placeholder="e.g. 15000"
+                                    min="0"
+                                    step="any"
+                                >
                             </div>
-                            <input 
-                                type="number" 
-                                id="electricBill" 
-                                class="w-full bg-[#1b1b1b] border border-gray-700 focus:border-[#FF6600] text-white font-bold text-lg rounded-lg pl-9 pr-4 py-3 outline-none transition orange-border-glow" 
-                                placeholder="e.g. 15000"
-                                min="0"
-                                step="any"
-                            >
+                            <p class="text-xs text-gray-400 mt-1">Enter your average total monthly electricity expense.</p>
                         </div>
-                        <p class="text-xs text-gray-400 mt-1">Enter your average total monthly electricity expense.</p>
-                    </div>
 
-                    <!-- Input 2: Electricity Rate -->
-                    <div>
-                        <label for="electricityPrice" class="block text-sm font-semibold text-gray-300 uppercase tracking-wider mb-2">
-                            Electricity Price (<span class="text-[#FF6600]">₱ / kWh</span>)
-                        </label>
-                        <div class="relative rounded-lg shadow-sm">
-                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#FF6600] font-bold">
-                                ₱
+                        <!-- Input 2: Electricity Rate -->
+                        <div>
+                            <label for="electricityPrice" class="block text-sm font-semibold text-gray-300 uppercase tracking-wider mb-2">
+                                Electricity Price (<span class="text-[#FF6600]">₱ / kWh</span>)
+                            </label>
+                            <div class="relative rounded-lg shadow-sm">
+                                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#FF6600] font-bold">
+                                    ₱
+                                </div>
+                                <input 
+                                    type="number" 
+                                    id="electricityPrice" 
+                                    class="w-full bg-[#1b1b1b] border border-gray-700 focus:border-[#FF6600] text-white font-bold text-lg rounded-lg pl-9 pr-4 py-3 outline-none transition orange-border-glow" 
+                                    placeholder="e.g. 12.5"
+                                    min="0.01"
+                                    step="any"
+                                >
                             </div>
-                            <input 
-                                type="number" 
-                                id="electricityPrice" 
-                                class="w-full bg-[#1b1b1b] border border-gray-700 focus:border-[#FF6600] text-white font-bold text-lg rounded-lg pl-9 pr-4 py-3 outline-none transition orange-border-glow" 
-                                placeholder="e.g. 12.5"
-                                min="0.01"
-                                step="any"
+                            <p class="text-xs text-gray-400 mt-1">Rate per kilowatt-hour from your utility bill.</p>
+                        </div>
+
+                        <!-- Quick Preset Buttons -->
+                        <div>
+                            <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Quick Rate Presets:</label>
+                            <div class="grid grid-cols-3 gap-2">
+                                <button type="button" onclick="setPrice(10)" class="bg-[#1e1e1e] hover:bg-[#FF6600] hover:text-black border border-[#FF6600]/30 text-xs font-bold py-2 rounded transition">₱10/kWh</button>
+                                <button type="button" onclick="setPrice(12)" class="bg-[#1e1e1e] hover:bg-[#FF6600] hover:text-black border border-[#FF6600]/30 text-xs font-bold py-2 rounded transition">₱12/kWh</button>
+                                <button type="button" onclick="setPrice(15)" class="bg-[#1e1e1e] hover:bg-[#FF6600] hover:text-black border border-[#FF6600]/30 text-xs font-bold py-2 rounded transition">₱15/kWh</button>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons (Calculate & Reset) -->
+                        <div class="flex gap-3">
+                            <button 
+                                type="button" 
+                                onclick="calculateSolar()" 
+                                class="flex-grow bg-[#FF6600] hover:bg-[#FF8C00] text-black font-extrabold uppercase py-3.5 rounded-lg text-base transition duration-200 shadow-md hover:shadow-lg flex items-center justify-center gap-2"
                             >
+                                <i class="fa-solid fa-microchip text-black"></i> Calculate
+                            </button>
+                            <button 
+                                type="button" 
+                                onclick="resetCalculator()" 
+                                class="bg-[#1e1e1e] hover:bg-gray-800 text-gray-300 hover:text-white border border-gray-700 font-bold uppercase px-4 py-3.5 rounded-lg text-sm transition duration-200 flex items-center justify-center gap-2"
+                            >
+                                <i class="fa-solid fa-rotate-right"></i> Reset
+                            </button>
                         </div>
-                        <p class="text-xs text-gray-400 mt-1">Rate per kilowatt-hour from your utility bill.</p>
-                    </div>
+                    </form>
+                </div>
 
-                    <!-- Quick Preset Buttons -->
-                    <div>
-                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Quick Rate Presets:</label>
-                        <div class="grid grid-cols-3 gap-2">
-                            <button type="button" onclick="setPrice(10)" class="bg-[#1e1e1e] hover:bg-[#FF6600] hover:text-black border border-[#FF6600]/30 text-xs font-bold py-2 rounded transition">₱10/kWh</button>
-                            <button type="button" onclick="setPrice(12)" class="bg-[#1e1e1e] hover:bg-[#FF6600] hover:text-black border border-[#FF6600]/30 text-xs font-bold py-2 rounded transition">₱12/kWh</button>
-                            <button type="button" onclick="setPrice(15)" class="bg-[#1e1e1e] hover:bg-[#FF6600] hover:text-black border border-[#FF6600]/30 text-xs font-bold py-2 rounded transition">₱15/kWh</button>
-                        </div>
-                    </div>
-
-                    <!-- Action Buttons (Calculate & Reset) -->
-                    <div class="flex gap-3">
-                        <button 
-                            type="button" 
-                            onclick="calculateSolar()" 
-                            class="flex-grow bg-[#FF6600] hover:bg-[#FF8C00] text-black font-extrabold uppercase py-3.5 rounded-lg text-base transition duration-200 shadow-md hover:shadow-lg flex items-center justify-center gap-2"
-                        >
-                            <i class="fa-solid fa-microchip text-black"></i> Calculate
-                        </button>
-                        <button 
-                            type="button" 
-                            onclick="resetCalculator()" 
-                            class="bg-[#1e1e1e] hover:bg-gray-800 text-gray-300 hover:text-white border border-gray-700 font-bold uppercase px-4 py-3.5 rounded-lg text-sm transition duration-200 flex items-center justify-center gap-2"
-                        >
-                            <i class="fa-solid fa-rotate-right"></i> Reset
-                        </button>
-                    </div>
-                </form>
+                <!-- Solar Panda BOM Callout Box -->
+                <div class="bg-[#181818] border border-[#00FF66]/40 p-4 rounded-xl text-center shadow-[0_0_15px_rgba(0,255,102,0.1)]">
+                    <p class="text-xs text-gray-300 mb-2 font-medium">For the solar DIYers please visit <span class="text-[#00FF66] font-bold">SOLAR PANDA</span> for the Bill of Materials:</p>
+                    <a 
+                        href="https://solarpanda.ph/" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        class="inline-flex items-center justify-center gap-2 w-full bg-[#00FF66] hover:bg-[#00cc52] text-black font-extrabold uppercase py-2.5 rounded-lg text-sm transition duration-200 shadow"
+                    >
+                        <i class="fa-solid fa-file-invoice text-black"></i> Visit Solar Panda (BOM)
+                    </a>
+                </div>
             </section>
 
             <!-- OUTPUT RESULTS DISPLAY -->
@@ -221,14 +236,13 @@
                     <!-- Battery Needed Card -->
                     <div class="bg-[#111111] border border-gray-800 hover:border-[#FF6600]/50 p-5 rounded-xl transition">
                         <div class="flex items-center justify-between">
-                            <span class="text-xs uppercase font-bold text-gray-400 tracking-wider">314AH Battery Units</span>
+                            <span class="text-xs uppercase font-bold text-gray-400 tracking-wider">Battery Bank Units</span>
                             <i class="fa-solid fa-car-battery text-[#FF6600]"></i>
                         </div>
                         <div class="mt-2">
                             <span id="batteryDisplay" class="text-3xl font-black text-[#FF8C00]">0</span>
-                            <span class="text-sm font-semibold text-gray-400"> Units</span>
                         </div>
-                        <p class="text-xs text-gray-500 mt-1">(Daily kWh ÷ 1.6) ÷ 12</p>
+                        <p class="text-xs text-gray-500 mt-1">Based on Daily Energy Storage Needs</p>
                     </div>
 
                     <!-- Solar Panels Needed Card -->
@@ -239,9 +253,8 @@
                         </div>
                         <div class="mt-2">
                             <span id="panelDisplay" class="text-3xl font-black text-[#FF8C00]">0</span>
-                            <span class="text-sm font-semibold text-gray-400"> Panels</span>
                         </div>
-                        <p class="text-xs text-gray-500 mt-1">(Monthly kWh × 10) ÷ 600</p>
+                        <p class="text-xs text-gray-500 mt-1">Based on Monthly Generation Capacity</p>
                     </div>
 
                 </div>
@@ -272,6 +285,13 @@
                     <tbody class="divide-y divide-gray-800 text-sm md:text-base font-medium">
                         <tr class="hover:bg-[#181818] transition">
                             <td class="p-4 font-bold text-white flex items-center gap-2">
+                                <span class="w-2.5 h-2.5 rounded-full bg-[#FF6600]"></span> 3 Kilowatts (3kW)
+                            </td>
+                            <td class="p-4 text-gray-300">Hybrid System</td>
+                            <td class="p-4 font-extrabold text-[#FF8C00]">₱150,000 - ₱195,000</td>
+                        </tr>
+                        <tr class="hover:bg-[#181818] transition">
+                            <td class="p-4 font-bold text-white flex items-center gap-2">
                                 <span class="w-2.5 h-2.5 rounded-full bg-[#FF6600]"></span> 6 Kilowatts (6kW)
                             </td>
                             <td class="p-4 text-gray-300">Hybrid System</td>
@@ -282,21 +302,21 @@
                                 <span class="w-2.5 h-2.5 rounded-full bg-[#FF6600]"></span> 8 Kilowatts (8kW)
                             </td>
                             <td class="p-4 text-gray-300">Hybrid System</td>
-                            <td class="p-4 font-extrabold text-[#FF8C00]">₱295,000 - ₱350,000</td>
+                            <td class="p-4 font-extrabold text-[#FF8C00]">₱320,000 - ₱450,000</td>
                         </tr>
                         <tr class="hover:bg-[#181818] transition">
                             <td class="p-4 font-bold text-white flex items-center gap-2">
                                 <span class="w-2.5 h-2.5 rounded-full bg-[#FF6600]"></span> 10 Kilowatts (10kW)
                             </td>
                             <td class="p-4 text-gray-300">Hybrid System</td>
-                            <td class="p-4 font-extrabold text-[#FF8C00]">₱340,000 - ₱455,000</td>
+                            <td class="p-4 font-extrabold text-[#FF8C00]">₱450,000 - ₱680,000</td>
                         </tr>
-			<tr class="hover:bg-[#181818] transition">
+                        <tr class="hover:bg-[#181818] transition">
                             <td class="p-4 font-bold text-white flex items-center gap-2">
                                 <span class="w-2.5 h-2.5 rounded-full bg-[#FF6600]"></span> 12 Kilowatts (12kW)
                             </td>
                             <td class="p-4 text-gray-300">Hybrid System</td>
-                            <td class="p-4 font-extrabold text-[#FF8C00]">₱420,000 - ₱550,000</td>
+                            <td class="p-4 font-extrabold text-[#FF8C00]">₱585,000 - ₱850,000</td>
                         </tr>
                     </tbody>
                 </table>
@@ -368,8 +388,8 @@
             document.getElementById('monthlyKwhDisplay').textContent = "0";
             document.getElementById('dailyKwhDisplay').textContent = "0";
             document.getElementById('inverterDisplay').textContent = "0";
-            document.getElementById('batteryDisplay').textContent = "0";
-            document.getElementById('panelDisplay').textContent = "0";
+            document.getElementById('batteryDisplay').innerHTML = '0 <span class="text-sm font-semibold text-gray-400">Units</span>';
+            document.getElementById('panelDisplay').innerHTML = '0 <span class="text-sm font-semibold text-gray-400">Panels</span>';
             document.getElementById('ratioTag').textContent = "Ratio: 0";
             document.getElementById('inverterExplanation').textContent = "Calculation: Monthly Consumption ÷ 90 compared against DIY classification ranges.";
         }
@@ -384,8 +404,8 @@
                 document.getElementById('monthlyKwhDisplay').textContent = "0";
                 document.getElementById('dailyKwhDisplay').textContent = "0";
                 document.getElementById('inverterDisplay').textContent = "0";
-                document.getElementById('batteryDisplay').textContent = "0";
-                document.getElementById('panelDisplay').textContent = "0";
+                document.getElementById('batteryDisplay').innerHTML = '0 <span class="text-sm font-semibold text-gray-400">Units</span>';
+                document.getElementById('panelDisplay').innerHTML = '0 <span class="text-sm font-semibold text-gray-400">Panels</span>';
                 document.getElementById('ratioTag').textContent = "Ratio: --";
                 document.getElementById('inverterExplanation').textContent = "Please enter valid numbers for Bill and Price.";
                 return;
@@ -404,12 +424,12 @@
             let inverterNeeded = 0;
             let ruleText = "";
 
-            if (inverterRatio < 6.1) {
+            if (inverterRatio < 4.5) {
+                inverterNeeded = 3;
+                ruleText = `Ratio is ${inverterRatio.toFixed(2)} (Below 4.5, rounded off to minimum 3 kW Hybrid Inverter).`;
+            } else if (inverterRatio >= 4.5 && inverterRatio <= 7.5) {
                 inverterNeeded = 6;
-                ruleText = `Ratio is ${inverterRatio.toFixed(2)} (Below 6.1, defaulted to minimum 6 kW Hybrid Inverter).`;
-            } else if (inverterRatio >= 6.1 && inverterRatio <= 7.5) {
-                inverterNeeded = 6;
-                ruleText = `Ratio is ${inverterRatio.toFixed(2)} (Falls between 6.1 and 7.5 → Rounded to 6 kW).`;
+                ruleText = `Ratio is ${inverterRatio.toFixed(2)} (Falls between 4.5 and 7.5 → Rounded to 6 kW).`;
             } else if (inverterRatio > 7.5 && inverterRatio <= 9.5) {
                 inverterNeeded = 8;
                 ruleText = `Ratio is ${inverterRatio.toFixed(2)} (Falls between 7.6 and 9.5 → Rounded to 8 kW).`;
@@ -430,11 +450,24 @@
                 ruleText = `Ratio is ${inverterRatio.toFixed(2)} (Exceeds 20.0, maximum standard tier set to 18 kW).`;
             }
 
-            // 4. 314AH Battery Units = (Daily Consumption / 1.6) / 12
-            const batteryNeeded = (dailyConsumption / 1.6) / 12;
+            // 4. 314AH Battery Units calculation with < 0.5 rule
+            const rawBatteryNeeded = (dailyConsumption / 1.6) / 12;
+            let batteryText = "";
+            if (rawBatteryNeeded < 0.5) {
+                batteryText = `1 Unit <span class="text-sm font-semibold text-gray-400">(200AH 24V)</span>`;
+            } else {
+                const roundedBattery = Math.ceil(rawBatteryNeeded);
+                batteryText = `${roundedBattery} <span class="text-sm font-semibold text-gray-400">Units (314AH)</span>`;
+            }
 
-            // 5. Solar Panels Needed = (Monthly Consumption * 10) / 600
-            const solarPanelsNeeded = (monthlyConsumption * 10) / 600;
+            // 5. Solar Panels Needed calculation with <= 4 rule
+            const rawSolarPanels = (monthlyConsumption * 10) / 600;
+            let panelText = "";
+            let finalPanelCount = Math.ceil(rawSolarPanels);
+            if (finalPanelCount <= 4) {
+                finalPanelCount = 4;
+            }
+            panelText = `${finalPanelCount} <span class="text-sm font-semibold text-gray-400">Panels</span>`;
 
             // Update DOM Displays
             document.getElementById('monthlyKwhDisplay').textContent = monthlyConsumption.toLocaleString('en-US', { maximumFractionDigits: 1 });
@@ -444,8 +477,8 @@
             document.getElementById('inverterExplanation').textContent = ruleText;
 
             // Display formatted numbers
-            document.getElementById('batteryDisplay').textContent = `${batteryNeeded.toFixed(2)} (${Math.ceil(batteryNeeded)} approx)`;
-            document.getElementById('panelDisplay').textContent = `${solarPanelsNeeded.toFixed(1)} (${Math.ceil(solarPanelsNeeded)} panels)`;
+            document.getElementById('batteryDisplay').innerHTML = batteryText;
+            document.getElementById('panelDisplay').innerHTML = panelText;
         }
 
         // Add real-time event listeners for interactive responsiveness
