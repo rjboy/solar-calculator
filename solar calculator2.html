@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOLAR DIYers - Solar Calculator & System Sizing</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            orange: '#FF6600',
+                            orangeLight: '#FF8C00',
+                            black: '#0b0b0b',
+                            darkGray: '#161616',
+                            cardBg: '#1f1f1f',
+                            accentGlow: 'rgba(255, 102, 0, 0.15)'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #050505;
+            color: #ffffff;
+        }
+        .orange-glow {
+            box-shadow: 0 0 25px -5px rgba(255, 102, 0, 0.3);
+        }
+        .orange-border-glow:focus {
+            box-shadow: 0 0 15px 2px rgba(255, 102, 0, 0.5);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b0b0b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #FF6600;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-[#050505] text-white min-h-screen flex flex-col justify-between selection:bg-[#FF6600] selection:text-black">
+
+    <!-- Top Glow Header Banner -->
+    <div class="w-full bg-gradient-to-r from-black via-[#FF6600] to-black h-1.5"></div>
+
+    <div class="max-w-6xl mx-auto px-4 py-8 md:py-12 flex-grow w-full">
+        
+        <!-- HEADER SECTION -->
+        <header class="text-center mb-10 md:mb-14">
+            <div class="inline-flex items-center justify-center p-3 mb-4 rounded-full bg-[#161616] border border-[#FF6600]/40 orange-glow">
+                <i class="fa-solid font-bold fa-bolt text-3xl text-[#FF6600] animate-pulse"></i>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-black tracking-tight text-[#FF6600] uppercase mb-4">
+                SOLAR DIYers
+            </h1>
+            <div class="max-w-3xl mx-auto bg-[#111111] border-l-4 border-[#FF6600] p-4 md:p-6 rounded-r-xl shadow-lg">
+                <p class="text-sm md:text-base text-gray-200 leading-relaxed text-left md:text-center font-medium">
+                    This website is for people who want to know what Solar Setup is right for them. This is based on an average type of household user who consumes <span class="text-[#FF8C00] font-bold">30-40%</span> of electricity in the morning and <span class="text-[#FF8C00] font-bold">60-70%</span> at night.
+                </p>
+            </div>
+        </header>
+
+        <!-- MAIN CALCULATOR CONTAINER -->
+        <main class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-16">
+            
+            <!-- INPUTS PANEL -->
+            <section class="lg:col-span-5 bg-[#111111] border border-[#FF6600]/30 rounded-2xl p-6 md:p-8 orange-glow">
+                <h2 class="text-xl md:text-2xl font-bold text-[#FF6600] uppercase tracking-wide mb-6 flex items-center gap-2 border-b border-[#FF6600]/20 pb-3">
+                    <i class="fa-solid fa-calculator"></i> Enter System Inputs
+                </h2>
+
+                <form id="solarForm" onsubmit="event.preventDefault();" class="space-y-6">
+                    <!-- Input 1: Electrical Bill -->
+                    <div>
+                        <label for="electricBill" class="block text-sm font-semibold text-gray-300 uppercase tracking-wider mb-2">
+                            Monthly Electrical Bill (<span class="text-[#FF6600]">?</span>)
+                        </label>
+                        <div class="relative rounded-lg shadow-sm">
+                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#FF6600] font-bold">
+                                ?
+                            </div>
+                            <input 
+                                type="number" 
+                                id="electricBill" 
+                                class="w-full bg-[#1b1b1b] border border-gray-700 focus:border-[#FF6600] text-white font-bold text-lg rounded-lg pl-9 pr-4 py-3 outline-none transition orange-border-glow" 
+                                placeholder="e.g. 15000"
+                                min="0"
+                                step="any"
+                                value="15000"
+                                required
+                            >
+                        </div>
+                        <p class="text-xs text-gray-400 mt-1">Enter your average total monthly electricity expense.</p>
+                    </div>
+
+                    <!-- Input 2: Electricity Rate -->
+                    <div>
+                        <label for="electricityPrice" class="block text-sm font-semibold text-gray-300 uppercase tracking-wider mb-2">
+                            Electricity Price (<span class="text-[#FF6600]">? / kWh</span>)
+                        </label>
+                        <div class="relative rounded-lg shadow-sm">
+                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#FF6600] font-bold">
+                                ?
+                            </div>
+                            <input 
+                                type="number" 
+                                id="electricityPrice" 
+                                class="w-full bg-[#1b1b1b] border border-gray-700 focus:border-[#FF6600] text-white font-bold text-lg rounded-lg pl-9 pr-4 py-3 outline-none transition orange-border-glow" 
+                                placeholder="e.g. 12.5"
+                                min="0.01"
+                                step="any"
+                                value="12"
+                                required
+                            >
+                        </div>
+                        <p class="text-xs text-gray-400 mt-1">Rate per kilowatt-hour from your utility bill.</p>
+                    </div>
+
+                    <!-- Quick Preset Buttons -->
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Quick Rate Presets:</label>
+                        <div class="grid grid-cols-3 gap-2">
+                            <button type="button" onclick="setPrice(10)" class="bg-[#1e1e1e] hover:bg-[#FF6600] hover:text-black border border-[#FF6600]/30 text-xs font-bold py-2 rounded transition">?10/kWh</button>
+                            <button type="button" onclick="setPrice(12)" class="bg-[#1e1e1e] hover:bg-[#FF6600] hover:text-black border border-[#FF6600]/30 text-xs font-bold py-2 rounded transition">?12/kWh</button>
+                            <button type="button" onclick="setPrice(15)" class="bg-[#1e1e1e] hover:bg-[#FF6600] hover:text-black border border-[#FF6600]/30 text-xs font-bold py-2 rounded transition">?15/kWh</button>
+                        </div>
+                    </div>
+
+                    <!-- Calculate Button -->
+                    <button 
+                        type="button" 
+                        onclick="calculateSolar()" 
+                        class="w-full bg-[#FF6600] hover:bg-[#FF8C00] text-black font-extrabold uppercase py-3.5 rounded-lg text-lg transition duration-200 shadow-md hover:shadow-lg flex items-center justify-center gap-2"
+                    >
+                        <i class="fa-solid fa-[#FF6600] fa-microchip text-black"></i> Calculate Solar Sizing
+                    </button>
+                </form>
+            </section>
+
+            <!-- OUTPUT RESULTS DISPLAY -->
+            <section class="lg:col-span-7 space-y-4">
+                
+                <h2 class="text-xl md:text-2xl font-bold text-[#FF6600] uppercase tracking-wide flex items-center gap-2 border-b border-[#FF6600]/20 pb-3 mb-4">
+                    <i class="fa-solid fa-square-poll-vertical"></i> Recommended System Specs
+                </h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    
+                    <!-- Monthly Consumption Card -->
+                    <div class="bg-[#111111] border border-gray-800 hover:border-[#FF6600]/50 p-5 rounded-xl transition">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs uppercase font-bold text-gray-400 tracking-wider">Monthly Energy</span>
+                            <i class="fa-solid fa-calendar-days text-[#FF6600]"></i>
+                        </div>
+                        <div class="mt-2">
+                            <span id="monthlyKwhDisplay" class="text-3xl font-black text-[#FF8C00]">0</span>
+                            <span class="text-sm font-semibold text-gray-400"> kWh / month</span>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1">Bill ÷ Electricity Rate</p>
+                    </div>
+
+                    <!-- Daily Consumption Card -->
+                    <div class="bg-[#111111] border border-gray-800 hover:border-[#FF6600]/50 p-5 rounded-xl transition">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs uppercase font-bold text-gray-400 tracking-wider">Daily Consumption</span>
+                            <i class="fa-solid fa-sun text-[#FF6600]"></i>
+                        </div>
+                        <div class="mt-2">
+                            <span id="dailyKwhDisplay" class="text-3xl font-black text-[#FF8C00]">0</span>
+                            <span class="text-sm font-semibold text-gray-400"> kWh / day</span>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1">Monthly Consumption ÷ 30 Days</p>
+                    </div>
+
+                    <!-- Recommended Inverter -->
+                    <div class="bg-[#111111] border-2 border-[#FF6600] p-5 rounded-xl md:col-span-2 orange-glow">
+                        <div class="flex items-center justify-between border-b border-gray-800 pb-2">
+                            <span class="text-xs uppercase font-bold text-[#FF6600] tracking-wider">Inverter Size Required</span>
+                            <i class="fa-solid fa-plug text-[#FF6600]"></i>
+                        </div>
+                        <div class="mt-3 flex flex-wrap items-baseline justify-between gap-2">
+                            <div>
+                                <span id="inverterDisplay" class="text-4xl md:text-5xl font-black text-[#FF6600]">0</span>
+                                <span class="text-xl font-bold text-white"> kW Hybrid Inverter</span>
+                            </div>
+                            <span id="ratioTag" class="text-xs bg-[#FF6600]/20 text-[#FF8C00] font-semibold px-2.5 py-1 rounded-md border border-[#FF6600]/40">
+                                Ratio: 0
+                            </span>
+                        </div>
+                        <p id="inverterExplanation" class="text-xs text-gray-300 mt-2 bg-[#1b1b1b] p-2.5 rounded border border-gray-800">
+                            Calculation: Monthly Consumption ÷ 90 compared against DIY classification ranges.
+                        </p>
+                    </div>
+
+                    <!-- Battery Needed Card -->
+                    <div class="bg-[#111111] border border-gray-800 hover:border-[#FF6600]/50 p-5 rounded-xl transition">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs uppercase font-bold text-gray-400 tracking-wider">314AH Battery Units</span>
+                            <i class="fa-solid fa-car-battery text-[#FF6600]"></i>
+                        </div>
+                        <div class="mt-2">
+                            <span id="batteryDisplay" class="text-3xl font-black text-[#FF8C00]">0</span>
+                            <span class="text-sm font-semibold text-gray-400"> Units</span>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1">(Daily kWh ÷ 1.6) ÷ 12</p>
+                    </div>
+
+                    <!-- Solar Panels Needed Card -->
+                    <div class="bg-[#111111] border border-gray-800 hover:border-[#FF6600]/50 p-5 rounded-xl transition">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs uppercase font-bold text-gray-400 tracking-wider">Solar Panels (600W)</span>
+                            <i class="fa-solid fa-solar-panel text-[#FF6600]"></i>
+                        </div>
+                        <div class="mt-2">
+                            <span id="panelDisplay" class="text-3xl font-black text-[#FF8C00]">0</span>
+                            <span class="text-sm font-semibold text-gray-400"> Panels</span>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1">(Monthly kWh × 10) ÷ 600</p>
+                    </div>
+
+                </div>
+
+            </section>
+        </main>
+
+        <!-- PRICE LOOKUP TABLE SECTION -->
+        <section class="bg-[#111111] border border-[#FF6600]/30 rounded-2xl p-6 md:p-8 mb-16 orange-glow">
+            <div class="flex flex-col md:flex-row md:items-center justify-between mb-6 border-b border-[#FF6600]/20 pb-4 gap-2">
+                <h2 class="text-2xl font-bold text-[#FF6600] uppercase tracking-wide flex items-center gap-2">
+                    <i class="fa-solid fa-tags text-[#FF6600]"></i> Hybrid System Price Reference
+                </h2>
+                <span class="text-xs font-semibold bg-[#1e1e1e] text-[#FF8C00] px-3 py-1 rounded-full border border-[#FF6600]/30">
+                    Price Range Depends on Installer & Brand
+                </span>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-[#1b1b1b] text-[#FF6600] uppercase text-xs tracking-wider border-b border-[#FF6600]/40">
+                            <th class="p-4 font-bold rounded-tl-lg">System Capacity</th>
+                            <th class="p-4 font-bold">System Type</th>
+                            <th class="p-4 font-bold rounded-tr-lg">Estimated Price Range (PHP)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-800 text-sm md:text-base font-medium">
+                        <tr class="hover:bg-[#181818] transition">
+                            <td class="p-4 font-bold text-white flex items-center gap-2">
+                                <span class="w-2.5 h-2.5 rounded-full bg-[#FF6600]"></span> 6 Kilowatts (6kW)
+                            </td>
+                            <td class="p-4 text-gray-300">Hybrid System</td>
+                            <td class="p-4 font-extrabold text-[#FF8C00]">?265,000 - ?320,000</td>
+                        </tr>
+                        <tr class="hover:bg-[#181818] transition">
+                            <td class="p-4 font-bold text-white flex items-center gap-2">
+                                <span class="w-2.5 h-2.5 rounded-full bg-[#FF6600]"></span> 8 Kilowatts (8kW)
+                            </td>
+                            <td class="p-4 text-gray-300">Hybrid System</td>
+                            <td class="p-4 font-extrabold text-[#FF8C00]">?295,000 - ?350,000</td>
+                        </tr>
+                        <tr class="hover:bg-[#181818] transition">
+                            <td class="p-4 font-bold text-white flex items-center gap-2">
+                                <span class="w-2.5 h-2.5 rounded-full bg-[#FF6600]"></span> 10 Kilowatts (10kW)
+                            </td>
+                            <td class="p-4 text-gray-300">Hybrid System</td>
+                            <td class="p-4 font-extrabold text-[#FF8C00]">?340,000 - ?395,000</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-xs text-gray-500 mt-4 italic">
+                * Note: Prices may vary based on component brand selection, battery capacity additions, solar panel mounting structure types, location logistics, and installation labor charges.
+            </p>
+        </section>
+
+        <!-- SOCIAL LINKS / CONTACT SECTION -->
+        <section class="bg-gradient-to-br from-[#141414] to-[#0a0a0a] border border-gray-800 rounded-2xl p-6 md:p-8 text-center">
+            <h3 class="text-xl font-black text-[#FF6600] uppercase tracking-wider mb-2">Connect & Learn More</h3>
+            <p class="text-gray-400 text-sm max-w-xl mx-auto mb-6">
+                Watch full solar tutorials, sizing tips, setup guides on YouTube, or get in touch for custom professional solar installation services.
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <!-- YouTube Channel Link -->
+                <a 
+                    href="https://www.youtube.com/@SolarDIYers/videos" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    class="w-full sm:w-auto bg-[#FF0000] hover:bg-red-700 text-white font-bold px-6 py-3.5 rounded-xl shadow-lg transition flex items-center justify-center gap-3 text-sm tracking-wide"
+                >
+                    <i class="fa-brands fa-youtube text-xl"></i>
+                    Follow on YouTube (@SolarDIYers)
+                </a>
+
+                <!-- Facebook Contact Link -->
+                <a 
+                    href="https://www.facebook.com/tagamasid.delim/" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    class="w-full sm:w-auto bg-[#1877F2] hover:bg-blue-700 text-white font-bold px-6 py-3.5 rounded-xl shadow-lg transition flex items-center justify-center gap-3 text-sm tracking-wide"
+                >
+                    <i class="fa-brands fa-facebook text-xl"></i>
+                    Solar Installation Info (FB Contact)
+                </a>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-gray-900 bg-[#080808] py-6 text-center text-xs text-gray-500">
+        <div class="max-w-6xl mx-auto px-4">
+            <p class="font-semibold text-gray-400 mb-1">SOLAR DIYers © <span id="year"></span> | Solar Calculator & DIY Guidance</p>
+            <p>Designed for households with 30-40% day usage and 60-70% night usage patterns.</p>
+        </div>
+    </footer>
+
+    <!-- CALCULATOR JAVASCRIPT LOGIC -->
+    <script>
+        // Set dynamic copyright year
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Helper function for rate presets
+        function setPrice(price) {
+            document.getElementById('electricityPrice').value = price;
+            calculateSolar();
+        }
+
+        // Main calculation logic adhering strictly to provided rules
+        function calculateSolar() {
+            const billInput = parseFloat(document.getElementById('electricBill').value);
+            const priceInput = parseFloat(document.getElementById('electricityPrice').value);
+
+            // Validation
+            if (isNaN(billInput) || isNaN(priceInput) || billInput <= 0 || priceInput <= 0) {
+                document.getElementById('monthlyKwhDisplay').textContent = "0";
+                document.getElementById('dailyKwhDisplay').textContent = "0";
+                document.getElementById('inverterDisplay').textContent = "0";
+                document.getElementById('batteryDisplay').textContent = "0";
+                document.getElementById('panelDisplay').textContent = "0";
+                document.getElementById('ratioTag').textContent = "Ratio: --";
+                document.getElementById('inverterExplanation').textContent = "Please enter valid numbers for Bill and Price.";
+                return;
+            }
+
+            // 1. Monthly Consumption = Electrical Bill / Electricity Price
+            const monthlyConsumption = billInput / priceInput;
+
+            // 2. Daily Consumption = Monthly Consumption / 30
+            const dailyConsumption = monthlyConsumption / 30;
+
+            // 3. Inverter Ratio = Monthly Consumption / 90
+            const inverterRatio = monthlyConsumption / 90;
+
+            // Inverter sizing logic based on ratio rules:
+            // - 6.1 to 7.5 -> 6 kW
+            // - 7.6 to 9.5 -> 8 kW
+            // - 9.6 to 11.0 -> 10 kW
+            // - 11.1 to 14.5 -> 12 kW
+            // - 14.6 to 17.0 -> 16 kW
+            // - 17.1 to 20.0 -> 18 kW
+            let inverterNeeded = 0;
+            let ruleText = "";
+
+            if (inverterRatio < 6.1) {
+                inverterNeeded = 6;
+                ruleText = `Ratio is ${inverterRatio.toFixed(2)} (Below 6.1, defaulted to minimum 6 kW Hybrid Inverter).`;
+            } else if (inverterRatio >= 6.1 && inverterRatio <= 7.5) {
+                inverterNeeded = 6;
+                ruleText = `Ratio is ${inverterRatio.toFixed(2)} (Falls between 6.1 and 7.5 ? Rounded to 6 kW).`;
+            } else if (inverterRatio > 7.5 && inverterRatio <= 9.5) {
+                inverterNeeded = 8;
+                ruleText = `Ratio is ${inverterRatio.toFixed(2)} (Falls between 7.6 and 9.5 ? Rounded to 8 kW).`;
+            } else if (inverterRatio > 9.5 && inverterRatio <= 11.0) {
+                inverterNeeded = 10;
+                ruleText = `Ratio is ${inverterRatio.toFixed(2)} (Falls between 9.6 and 11.0 ? Rounded to 10 kW).`;
+            } else if (inverterRatio > 11.0 && inverterRatio <= 14.5) {
+                inverterNeeded = 12;
+                ruleText = `Ratio is ${inverterRatio.toFixed(2)} (Falls between 11.1 and 14.5 ? Rounded to 12 kW).`;
+            } else if (inverterRatio > 14.5 && inverterRatio <= 17.0) {
+                inverterNeeded = 16;
+                ruleText = `Ratio is ${inverterRatio.toFixed(2)} (Falls between 14.6 and 17.0 ? Rounded to 16 kW).`;
+            } else if (inverterRatio > 17.0 && inverterRatio <= 20.0) {
+                inverterNeeded = 18;
+                ruleText = `Ratio is ${inverterRatio.toFixed(2)} (Falls between 17.1 and 20.0 ? Rounded to 18 kW).`;
+            } else {
+                inverterNeeded = 18;
+                ruleText = `Ratio is ${inverterRatio.toFixed(2)} (Exceeds 20.0, maximum standard tier set to 18 kW).`;
+            }
+
+            // 4. 314AH Battery Units = (Daily Consumption / 1.6) / 12
+            const batteryNeeded = (dailyConsumption / 1.6) / 12;
+
+            // 5. Solar Panels Needed = (Monthly Consumption * 10) / 600
+            const solarPanelsNeeded = (monthlyConsumption * 10) / 600;
+
+            // Update DOM Displays
+            document.getElementById('monthlyKwhDisplay').textContent = monthlyConsumption.toLocaleString('en-US', { maximumFractionDigits: 1 });
+            document.getElementById('dailyKwhDisplay').textContent = dailyConsumption.toLocaleString('en-US', { maximumFractionDigits: 1 });
+            document.getElementById('inverterDisplay').textContent = inverterNeeded;
+            document.getElementById('ratioTag').textContent = `Ratio: ${inverterRatio.toFixed(2)}`;
+            document.getElementById('inverterExplanation').textContent = ruleText;
+
+            // Display formatted numbers (rounded up or with decimals as appropriate for units)
+            document.getElementById('batteryDisplay').textContent = `${batteryNeeded.toFixed(2)} (${Math.ceil(batteryNeeded)} approx)`;
+            document.getElementById('panelDisplay').textContent = `${solarPanelsNeeded.toFixed(1)} (${Math.ceil(solarPanelsNeeded)} panels)`;
+        }
+
+        // Add real-time event listeners for interactive responsiveness
+        document.getElementById('electricBill').addEventListener('input', calculateSolar);
+        document.getElementById('electricityPrice').addEventListener('input', calculateSolar);
+
+        // Run calculation on load
+        window.onload = function() {
+            calculateSolar();
+        };
+    </script>
+</body>
+</html>
