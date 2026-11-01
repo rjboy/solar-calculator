@@ -144,6 +144,25 @@
                             </div>
                         </div>
 
+                        <!-- Dropdown: User Profile Selection -->
+                        <div>
+                            <label for="userType" class="block text-sm font-semibold text-gray-300 uppercase tracking-wider mb-2">
+                                User Profile / Usage Mode
+                            </label>
+                            <div class="relative rounded-lg shadow-sm">
+                                <select 
+                                    id="userType" 
+                                    onchange="calculateSolar()"
+                                    class="w-full bg-[#1b1b1b] border border-gray-700 focus:border-[#FF6600] text-white font-bold text-md rounded-lg px-4 py-3 outline-none transition orange-border-glow cursor-pointer"
+                                >
+                                    <option value="default">Default</option>
+                                    <option value="night">Night Time User</option>
+                                    <option value="day">Day Time User</option>
+                                </select>
+                            </div>
+                            <p class="text-xs text-gray-400 mt-1">Select your household usage pattern for battery sizing.</p>
+                        </div>
+
                         <!-- Action Buttons (Calculate & Reset) -->
                         <div class="flex gap-3">
                             <button 
@@ -383,6 +402,7 @@
         function resetCalculator() {
             document.getElementById('electricBill').value = '';
             document.getElementById('electricityPrice').value = '';
+            document.getElementById('userType').value = 'default';
             
             // Reset displays back to default zeros
             document.getElementById('monthlyKwhDisplay').textContent = "0";
@@ -398,6 +418,7 @@
         function calculateSolar() {
             const billInput = parseFloat(document.getElementById('electricBill').value);
             const priceInput = parseFloat(document.getElementById('electricityPrice').value);
+            const userType = document.getElementById('userType').value;
 
             // Validation
             if (isNaN(billInput) || isNaN(priceInput) || billInput <= 0 || priceInput <= 0) {
@@ -450,14 +471,46 @@
                 ruleText = `Ratio is ${inverterRatio.toFixed(2)} (Exceeds 20.0, maximum standard tier set to 18 kW).`;
             }
 
-            // 4. 314AH Battery Units calculation with < 0.5 rule
-            const rawBatteryNeeded = (dailyConsumption / 1.6) / 12;
+            // 4. Battery Needed calculation based on User Type Dropdown selection
             let batteryText = "";
-            if (rawBatteryNeeded < 0.5) {
-                batteryText = `1 Unit <span class="text-sm font-semibold text-gray-400">(200AH 24V)</span>`;
+
+            if (userType === 'night') {
+                // Night Time User Formula: daily consumption * 0.8 / 12
+                const rawNightBattery = (dailyConsumption * 0.8) / 12;
+                const intPart = Math.floor(rawNightBattery);
+                const decPart = rawNightBattery - intPart;
+
+                let finalNightUnits = intPart;
+                if (decPart > 0.3) {
+                    finalNightUnits = intPart + 1; // Round UP if decimal > 0.3
+                } else {
+                    finalNightUnits = intPart;     // Round DOWN if decimal < 0.3
+                }
+                batteryText = `${finalNightUnits} <span class="text-sm font-semibold text-gray-400">Units (Night User)</span>`;
+
+            } else if (userType === 'day') {
+                // Day Time User Formula: daily consumption * 0.2 / 12
+                const rawDayBattery = (dailyConsumption * 0.2) / 12;
+
+                if (rawDayBattery < 0.3) {
+                    batteryText = `1pc <span class="text-sm font-semibold text-gray-400">100AH 51.2 volts battery</span>`;
+                } else if (rawDayBattery >= 0.3 && rawDayBattery < 0.6) {
+                    batteryText = `1 pc <span class="text-sm font-semibold text-gray-400">200AH 51.2 volt battery</span>`;
+                } else {
+                    // Fallback for higher ranges if needed based on calculated value
+                    const roundedDay = Math.ceil(rawDayBattery);
+                    batteryText = `${roundedDay} <span class="text-sm font-semibold text-gray-400">Units (Day User)</span>`;
+                }
+
             } else {
-                const roundedBattery = Math.ceil(rawBatteryNeeded);
-                batteryText = `${roundedBattery} <span class="text-sm font-semibold text-gray-400">Units (314AH)</span>`;
+                // Default formula logic
+                const rawBatteryNeeded = (dailyConsumption / 1.6) / 12;
+                if (rawBatteryNeeded < 0.5) {
+                    batteryText = `1 Unit <span class="text-sm font-semibold text-gray-400">(200AH 24V)</span>`;
+                } else {
+                    const roundedBattery = Math.ceil(rawBatteryNeeded);
+                    batteryText = `${roundedBattery} <span class="text-sm font-semibold text-gray-400">Units (314AH)</span>`;
+                }
             }
 
             // 5. Solar Panels Needed calculation with <= 4 rule
